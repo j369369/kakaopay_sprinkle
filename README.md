@@ -47,40 +47,40 @@
 
 #### 	1.DB Modeling
 
->  * sprinkle / sprinkleGet 테이블로 구성 
->    ![image](https://user-images.githubusercontent.com/42058025/106576641-be6d8580-6580-11eb-8600-32334adbc02c.png)
+  * sprinkle / sprinkleGet 테이블로 구성 
+>![image](https://user-images.githubusercontent.com/42058025/106576641-be6d8580-6580-11eb-8600-32334adbc02c.png)
 
 #### 	2. Swagger
 
->  * Swagger로 API 테스트 및 문서화
->  * '/'진입시 BaseController를 통해 redirect
->    ![image](https://user-images.githubusercontent.com/42058025/106577086-494e8000-6581-11eb-97e7-49bae717d120.png)
+  * Swagger로 API 테스트 및 문서화
+  * '/'진입시 BaseController를 통해 redirect
+>![image](https://user-images.githubusercontent.com/42058025/106577086-494e8000-6581-11eb-97e7-49bae717d120.png)
 
 #### 	3.Test
 
->| 구분          | 테스트명                                                     | 경로                                                         |
->| ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
->| 검증          | 헤더 검증 (회원 아이디 누락)                                 | ~.controller.ValidateTest#HeaderValidate001                  |
->|               | 헤더 검증 (대화방 아이디 누락)                               | ~.controller.ValidateTest#HeaderValidate002                  |
->|               | 헤더 값 검증                                                 | ~.controller.ValidateTest#HeaderValidate003                  |
->|               | 요청 값 검증                                                 | ~.controller.ValidateTest#paramValidate001                   |
->| 도메인        | 뿌리기 저장 테스트                                           | ~.domain.sprinkle.SprinkleRepositoryTest#sprinkleSaveTest    |
->|               | 뿌린금액 리스트 저장 테스트                                  | ~.domain.sprinkleGet.SprinkleGetRepositoryTest#sprinkleGetSaveTest |
->| 컨트롤러      | 뿌리기 API                                                   | ~.controller.SprinkleApiControllerTest#saveSprinkle          |
->|               | 받기 API                                                     | ~.controller.SprinkleApiControllerTest#getSprinkle           |
->|               | 조회 API                                                     | ~.controller.SprinkleApiControllerTest#selectSprinkle        |
->| 뿌리기 서비스 | 금액, 인원을 요청값으로 받고 금액은 인원수 이상이어야 합니다. | ~.service.SprinkleServiceTest#sprinkleTest001                |
->|               | 뿌리기 요청건에 대한 고유 token을 발급하고 응답값으로 내려줍니다. | ~.service.SprinkleServiceTest#sprinkleTest002                |
->|               | 뿌릴 금액을 인원수에 맞게 분배하여 저장합니다.               | ~.service.SprinkleServiceTest#sprinkleTest003                |
->| 받기 서비스   | 할당되지 않은 분배건 하나를 API를 호출한 사용자에게 할당하고, 그 금액을 응답값으로 내려줍니다. | ~.service.SprinkleGetServiceTest#sprinkleGetTest001          |
->|               | 뿌리기 당 한 사용자는 한번만 받을 수 있습니다.               | ~.service.SprinkleGetServiceTest#sprinkleGetTest002          |
->|               | 자신이 뿌리기한 건은 자신이 받을 수 없습니다.                | ~.service.SprinkleGetServiceTest#sprinkleGetTest003          |
->|               | 대화방에 속한 사용자만이 받을 수 있습니다.                   | ~.service.SprinkleGetServiceTest#sprinkleGetTest004          |
->|               | 뿌린지 10분이 지난 요청에 대해서는 받기 실패 응답이 내려가야 합니다. | ~.service.SprinkleGetServiceTest#sprinkleGetTest005          |
->|               | 받을수 있는 건이 없으면 실패 응답                            | ~.service.SprinkleGetServiceTest#sprinkleGetTest006          |
->| 조회 서비스   | 조회를 요청하고 token에 해당하는 뿌리기 건의 현재 상태를 응답값으로 내려줍니다. | ~.service.SprinkleServiceTest#sprinkleTest004                |
->|               | 뿌린 사람 자신만 조회를 할 수 있습니다.                      | ~.service.SprinkleServiceTest#sprinkleTest005                |
->|               | 뿌린 건에 대한 조회는 7일 동안 할 수 있습니다.               | ~.service.SprinkleServiceTest#sprinkleTest006                |
+| 구분          | 테스트명                                                     | 경로                                                         |
+| ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 검증          | 헤더 검증 (회원 아이디 누락)                                 | ~.controller.ValidateTest#HeaderValidate001                  |
+|               | 헤더 검증 (대화방 아이디 누락)                               | ~.controller.ValidateTest#HeaderValidate002                  |
+|               | 헤더 값 검증                                                 | ~.controller.ValidateTest#HeaderValidate003                  |
+|               | 요청 값 검증                                                 | ~.controller.ValidateTest#paramValidate001                   |
+| 도메인        | 뿌리기 저장 테스트                                           | ~.SprinkleRepositoryTest#sprinkleSaveTest    |
+|               | 뿌린금액 리스트 저장 테스트                                  | ~.SprinkleGetRepositoryTest#sprinkleGetSaveTest |
+| 컨트롤러      | 뿌리기 API                                                   | ~.controller.SprinkleApiControllerTest#saveSprinkle          |
+|               | 받기 API                                                     | ~.controller.SprinkleApiControllerTest#getSprinkle           |
+|               | 조회 API                                                     | ~.controller.SprinkleApiControllerTest#selectSprinkle        |
+| 뿌리기 서비스 | 금액, 인원을 요청값으로 받고 금액은 인원수 이상이어야 합니다. | ~.service.SprinkleServiceTest#sprinkleTest001                |
+|               | 뿌리기 요청건에 대한 고유 token을 발급하고 응답값으로 내려줍니다. | ~.service.SprinkleServiceTest#sprinkleTest002                |
+|               | 뿌릴 금액을 인원수에 맞게 분배하여 저장합니다.               | ~.service.SprinkleServiceTest#sprinkleTest003                |
+| 받기 서비스   | 할당되지 않은 분배건 하나를 API를 호출한 사용자에게 할당하고, 그 금액을 응답값으로 내려줍니다. | ~.service.SprinkleGetServiceTest#sprinkleGetTest001          |
+|               | 뿌리기 당 한 사용자는 한번만 받을 수 있습니다.               | ~.service.SprinkleGetServiceTest#sprinkleGetTest002          |
+|               | 자신이 뿌리기한 건은 자신이 받을 수 없습니다.                | ~.service.SprinkleGetServiceTest#sprinkleGetTest003          |
+|               | 대화방에 속한 사용자만이 받을 수 있습니다.                   | ~.service.SprinkleGetServiceTest#sprinkleGetTest004          |
+|               | 뿌린지 10분이 지난 요청에 대해서는 받기 실패 응답이 내려가야 합니다. | ~.service.SprinkleGetServiceTest#sprinkleGetTest005          |
+|               | 받을수 있는 건이 없으면 실패 응답                            | ~.service.SprinkleGetServiceTest#sprinkleGetTest006          |
+| 조회 서비스   | 조회를 요청하고 token에 해당하는 뿌리기 건의 현재 상태를 응답값으로 내려줍니다. | ~.service.SprinkleServiceTest#sprinkleTest004                |
+|               | 뿌린 사람 자신만 조회를 할 수 있습니다.                      | ~.service.SprinkleServiceTest#sprinkleTest005                |
+|               | 뿌린 건에 대한 조회는 7일 동안 할 수 있습니다.               | ~.service.SprinkleServiceTest#sprinkleTest006                |
 
 #### 	4.Test Result
 
