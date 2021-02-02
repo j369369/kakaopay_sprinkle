@@ -15,7 +15,7 @@ public class SprinkleGet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "getId")
+    @Column
     private Long getId;
 
     // 뿌리기
@@ -25,19 +25,19 @@ public class SprinkleGet {
     private Sprinkle sprinkle;
 
     // 유저 아이디
-    @Column(name = "userId")
+    @Column
     @Setter
     private Long userId;
 
     // 받은 금액
-    @Column(name = "amount", nullable = false)
+    @Column(nullable = false)
     private Long amount;
 
     @Version
     private Integer version;
 
     // 생성일시
-    @Column(name = "createdAt")
+    @Column
     @Setter
     private LocalDateTime createdAt = LocalDateTime.now();
 

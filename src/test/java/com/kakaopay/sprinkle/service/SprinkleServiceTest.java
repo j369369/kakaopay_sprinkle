@@ -41,7 +41,7 @@ class SprinkleServiceTest {
 	LocalDateTime createdAt;
 
 	@BeforeEach
-	void init(){
+	void init() {
 		amount = 10000;
 		totalCount = 4;
 		userId = 1001;
@@ -64,13 +64,13 @@ class SprinkleServiceTest {
 
 	@Test
 	@DisplayName("뿌리기 요청건에 대한 고유 token을 발급하고 응답값으로 내려줍니다.")
-	void sprinkleTest002(){
+	void sprinkleTest002() {
 
-		String token = sprinkleService.sprinkle(amount,totalCount,userId,roomId);
+		String token = sprinkleService.sprinkle(amount, totalCount, userId, roomId);
 
 
-		Sprinkle sprinkle = sprinkleRepository.findByTokenAndCreatedAtGreaterThan(token,createdAt)
-				.orElseThrow(()-> new AssertionError("sprinkleTest failed"));
+		Sprinkle sprinkle = sprinkleRepository.findByTokenAndCreatedAtGreaterThan(token, createdAt)
+				.orElseThrow(() -> new AssertionError("sprinkleTest failed"));
 
 		assertThat(token).isNotEmpty().hasSize(CommonConstants.TOKEN_LENGTH);
 		assertThat(sprinkle.getAmount()).isEqualTo(amount);
@@ -82,13 +82,13 @@ class SprinkleServiceTest {
 	@Test
 	@DisplayName("뿌릴 금액을 인원수에 맞게 분배하여 저장합니다.")
 	@Transactional
-	void sprinkleTest003(){
+	void sprinkleTest003() {
 
-		String token = sprinkleService.sprinkle(amount,totalCount,userId,roomId);
+		String token = sprinkleService.sprinkle(amount, totalCount, userId, roomId);
 
 
-		Sprinkle sprinkle = sprinkleRepository.findByTokenAndCreatedAtGreaterThan(token,createdAt)
-				.orElseThrow(()-> new AssertionError("sprinkleTest failed"));
+		Sprinkle sprinkle = sprinkleRepository.findByTokenAndCreatedAtGreaterThan(token, createdAt)
+				.orElseThrow(() -> new AssertionError("sprinkleTest failed"));
 
 		assertThat(sprinkle.getSprinkleGets().size()).isEqualTo(totalCount);
 		assertThat(sprinkle.getSprinkleGets().stream().map(SprinkleGet::getAmount).reduce(0L, Long::sum))
@@ -101,7 +101,7 @@ class SprinkleServiceTest {
 
 		String token = sprinkleService.sprinkle(amount, totalCount, userId, roomId);
 
-		SprinkleResponseDto sprinkle = sprinkleService.selectSprinkle(token,userId);
+		SprinkleResponseDto sprinkle = sprinkleService.selectSprinkle(token, userId, roomId);
 
 		assertThat(sprinkle.getSprinkleAt()).isNotNull();
 		assertThat(sprinkle.getAmount()).isEqualTo(amount);
@@ -115,21 +115,22 @@ class SprinkleServiceTest {
 		long other = 1002;
 		String token = sprinkleService.sprinkle(amount, totalCount, userId, roomId);
 
-		assertThatThrownBy(() -> sprinkleService.selectSprinkle(token,other))
+		assertThatThrownBy(() -> sprinkleService.selectSprinkle(token, other, roomId))
 				.isInstanceOf(PermissionDeniedException.class);
 	}
+
 	@Test
 	@DisplayName("뿌린 건에 대한 조회는 7일 동안 할 수 있습니다.")
 	@Transactional
 	void sprinkleTest006() {
 		String token = sprinkleService.sprinkle(amount, totalCount, userId, roomId);
 
-		Sprinkle sprinkle = sprinkleRepository.findByTokenAndCreatedAtGreaterThan(token,createdAt)
-				.orElseThrow(()-> new AssertionError("sprinkleTest failed"));
+		Sprinkle sprinkle = sprinkleRepository.findByTokenAndCreatedAtGreaterThan(token, createdAt)
+				.orElseThrow(() -> new AssertionError("sprinkleTest failed"));
 
-		sprinkle.setCreatedAt(LocalDateTime.now().minusDays(CommonConstants.EXPIRE_READ_DAYS+1));
+		sprinkle.setCreatedAt(LocalDateTime.now().minusDays(CommonConstants.EXPIRE_READ_DAYS + 1));
 
-		assertThatThrownBy(() -> sprinkleService.selectSprinkle(token,userId))
+		assertThatThrownBy(() -> sprinkleService.selectSprinkle(token, userId, roomId))
 				.isInstanceOf(SprinkleNotFoundException.class);
 	}
 

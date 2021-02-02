@@ -6,6 +6,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class SprinkleGetDto {
-    private final long amount;
-    private final long userId;
+	private final long amount;
+	private final long userId;
 }

@@ -1,5 +1,6 @@
 package com.kakaopay.sprinkle.domain.sprinkle;
 
+import com.kakaopay.sprinkle.constants.CommonConstants;
 import com.kakaopay.sprinkle.domain.sprinkleGet.SprinkleGet;
 import lombok.*;
 
@@ -17,31 +18,31 @@ public class Sprinkle {
     // 뿌리기 아이디
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "sprinkleId")
+    @Column
     private Long sprinkleId;
 
     // 유저 아이디
-    @Column(name = "userId", nullable = false)
+    @Column(nullable = false)
     private Long userId;
 
     // 대화방 아이디
-    @Column(name = "roomId", nullable = false)
+    @Column(nullable = false)
     private String roomId;
 
     // token
-    @Column(name = "token", nullable = false, length = 3)
+    @Column(nullable = false, length = CommonConstants.TOKEN_LENGTH)
     private String token;
 
     // 뿌리기 금액
-    @Column(name = "amount", nullable = false)
+    @Column(nullable = false)
     private Long amount;
 
     // 뿌리기 갯수
-    @Column(name = "totalCount", nullable = false)
+    @Column(nullable = false)
     private Integer totalCount;
 
     // 생성일시
-    @Column(name = "createdAt")
+    @Column
     @Setter
     private LocalDateTime createdAt = LocalDateTime.now();
 

@@ -71,10 +71,11 @@ class ValidateTest {
 		actions
 				.andDo(print())
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("code",is(ResponseCodes.INVALID_HEADER.code)))
-				.andExpect(jsonPath("message",is(ResponseCodes.INVALID_HEADER.description)))
+				.andExpect(jsonPath("code", is(ResponseCodes.INVALID_HEADER.code)))
+				.andExpect(jsonPath("message", is(ResponseCodes.INVALID_HEADER.description)))
 				.andExpect(jsonPath("data", Matchers.containsString(Headers.USER_ID)));
 	}
+
 	@Test
 	@DisplayName("헤더 검증 (대화방 아이디 누락)")
 	public void HeaderValidate002() throws Exception {
@@ -92,10 +93,11 @@ class ValidateTest {
 		actions
 				.andDo(print())
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("code",is(ResponseCodes.INVALID_HEADER.code)))
-				.andExpect(jsonPath("message",is(ResponseCodes.INVALID_HEADER.description)))
+				.andExpect(jsonPath("code", is(ResponseCodes.INVALID_HEADER.code)))
+				.andExpect(jsonPath("message", is(ResponseCodes.INVALID_HEADER.description)))
 				.andExpect(jsonPath("data", Matchers.containsString(Headers.ROOM_ID)));
 	}
+
 	@Test
 	@DisplayName("헤더 값 검증")
 	public void HeaderValidate003() throws Exception {
@@ -114,9 +116,10 @@ class ValidateTest {
 		actions
 				.andDo(print())
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("code",is(ResponseCodes.INVALID_HEADER.code)))
-				.andExpect(jsonPath("message",is(ResponseCodes.INVALID_HEADER.description)));
+				.andExpect(jsonPath("code", is(ResponseCodes.INVALID_HEADER.code)))
+				.andExpect(jsonPath("message", is(ResponseCodes.INVALID_HEADER.description)));
 	}
+
 	@Test
 	@DisplayName("요청 값 검증")
 	public void paramValidate001() throws Exception {
@@ -135,8 +138,8 @@ class ValidateTest {
 		actions
 				.andDo(print())
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("code",is(ResponseCodes.INVALID_REQUEST.code)))
-				.andExpect(jsonPath("message",is(ResponseCodes.INVALID_REQUEST.description)))
+				.andExpect(jsonPath("code", is(ResponseCodes.INVALID_REQUEST.code)))
+				.andExpect(jsonPath("message", is(ResponseCodes.INVALID_REQUEST.description)))
 				.andExpect(jsonPath("data", Matchers.hasKey("amount")))
 				.andExpect(jsonPath("data", Matchers.hasKey("totalCount")));
 	}

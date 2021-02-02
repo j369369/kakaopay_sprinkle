@@ -15,16 +15,18 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@DisplayName("뿌리기 도메인")
 class SprinkleRepositoryTest {
 
-    @Autowired
-    SprinkleRepository sprinkleRepository;
+	@Autowired
+	SprinkleRepository sprinkleRepository;
 
 	long amount;
 	int totalCount;
@@ -34,39 +36,40 @@ class SprinkleRepositoryTest {
 	LocalDateTime createdAt;
 
 	@BeforeEach
-	void init(){
+	void init() {
 		amount = 10000;
 		totalCount = 4;
 		userId = 1001;
 		roomId = "AAABQWE";
-		token ="Xab";
+		token = "Xab";
 		createdAt = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).minusDays(CommonConstants.EXPIRE_READ_DAYS);
-
+		sprinkleRepository.deleteAll();
 	}
+
 	@AfterEach
-	public void cleanUp(){
+	public void cleanUp() {
 		sprinkleRepository.deleteAll();
 	}
 
 
 	@DisplayName("뿌리기 저장 테스트")
-    @Test
-    public void sprinkleSaveTest(){
+	@Test
+	public void sprinkleSaveTest() {
 
-        sprinkleRepository.save(Sprinkle.builder()
-                .token(token)
-                .userId(userId)
-                .roomId(roomId)
-                .amount(amount)
-                .totalCount(totalCount)
-                .build());
+		sprinkleRepository.save(Sprinkle.builder()
+				.token(token)
+				.userId(userId)
+				.roomId(roomId)
+				.amount(amount)
+				.totalCount(totalCount)
+				.build());
 
 
-        Sprinkle sprinkle = sprinkleRepository.findByTokenAndCreatedAtGreaterThan(token,createdAt).get();
-        assertThat(sprinkle.getToken()).isEqualTo(token);
-        assertThat(sprinkle.getUserId()).isEqualTo(userId);
-        assertThat(sprinkle.getRoomId()).isEqualTo(roomId);
+		Sprinkle sprinkle = sprinkleRepository.findByTokenAndCreatedAtGreaterThan(token, createdAt).get();
+		assertThat(sprinkle.getToken()).isEqualTo(token);
+		assertThat(sprinkle.getUserId()).isEqualTo(userId);
+		assertThat(sprinkle.getRoomId()).isEqualTo(roomId);
 
-    }
+	}
 
 }

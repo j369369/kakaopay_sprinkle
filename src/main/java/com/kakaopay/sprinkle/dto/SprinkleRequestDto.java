@@ -11,10 +11,10 @@ import javax.validation.constraints.DecimalMin;
 @AllArgsConstructor
 public class SprinkleRequestDto {
 
-    @DecimalMin(value = "1", message = "뿌릴 금액이 1원 이상 이어야 합니다.")
-    private long amount;
+	@DecimalMin(value = "1", message = "뿌릴 금액이 1원 이상 이어야 합니다.")
+	private long amount;
 
-    @DecimalMin(value = "1", message = "받을 사람이 1명 이상 이어야 합니다.")
-    private int totalCount;
+	@DecimalMin(value = "1", message = "받을 사람이 1명 이상 이어야 합니다.")
+	private int totalCount;
 
 }

@@ -36,7 +36,7 @@ public class SprinkleGetServiceImpl implements SprinkleGetService {
 		validateUtils.validateToken(token);
 
 		LocalDateTime createdAt = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).minusDays(CommonConstants.EXPIRE_READ_DAYS);
-		Sprinkle sprinkle = sprinkleRepository.findByTokenAndCreatedAtGreaterThan(token,createdAt)
+		Sprinkle sprinkle = sprinkleRepository.findByTokenAndCreatedAtGreaterThan(token, createdAt)
 				.orElseThrow(() -> new SprinkleNotFoundException(ResponseCodes.SELECT_NOT_FOUND));
 
 		validateUtils.validateGet(sprinkle, userId, roomId);
@@ -46,7 +46,6 @@ public class SprinkleGetServiceImpl implements SprinkleGetService {
 		if (list.size() == 0) throw new NotAvailableGetException(ResponseCodes.NOT_AVAILABLE_GET);
 		Random random = new Random();
 		SprinkleGet get = list.get(random.nextInt(list.size()));
-
 
 		get.setUserId(userId);
 

@@ -21,19 +21,21 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@DisplayName("받기 도메인")
 class SprinkleGetRepositoryTest {
 
 
-    @Autowired
-    SprinkleRepository sprinkleRepository;
+	@Autowired
+	SprinkleRepository sprinkleRepository;
 
-    @Autowired
-    SprinkleGetRepository getRepository;
+	@Autowired
+	SprinkleGetRepository getRepository;
 
-    @Autowired
-    CommonUtils utils;
+	@Autowired
+	CommonUtils utils;
 
 
 	long amount;
@@ -44,51 +46,54 @@ class SprinkleGetRepositoryTest {
 	LocalDateTime createdAt;
 
 	@BeforeEach
-	void init(){
+	void init() {
 		amount = 10000;
 		totalCount = 4;
 		userId = 1001;
 		roomId = "AAABQWE";
-		token ="Xab";
+		token = "Xab";
 		createdAt = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).minusDays(CommonConstants.EXPIRE_READ_DAYS);
 
+		sprinkleRepository.deleteAll();
+		getRepository.deleteAll();
 	}
-    @AfterEach
-    public void cleanUp(){
-        sprinkleRepository.deleteAll();
-        getRepository.deleteAll();
-    }
+
+	@AfterEach
+	public void cleanUp() {
+		sprinkleRepository.deleteAll();
+		getRepository.deleteAll();
+	}
 
 
-    @DisplayName("뿌린금액 리스트 저장 테스트")
-    @Test
-    @Transactional
-    public void sprinkleGetSaveTest(){
+	@DisplayName("뿌린금액 리스트 저장 테스트")
+	@Test
+	@Transactional
+	public void sprinkleGetSaveTest() {
 
-        Sprinkle sprinkle = sprinkleRepository.save(Sprinkle.builder()
-                .token(token)
-                .userId(userId)
-                .roomId(roomId)
-                .amount(amount)
-                .totalCount(totalCount)
-                .build());
-
-
-        long[] dvdList = utils.dvdAmt(amount,totalCount,1);
-
-        for (long l : dvdList){
-            sprinkle.addSprinkleGet(SprinkleGet.builder().amount(l).build());
-        }
+		Sprinkle sprinkle = sprinkleRepository.save(Sprinkle.builder()
+				.token(token)
+				.userId(userId)
+				.roomId(roomId)
+				.amount(amount)
+				.totalCount(totalCount)
+				.build());
 
 
-	    sprinkle = sprinkleRepository.findByTokenAndCreatedAtGreaterThan(token,createdAt).get();
+		long[] dvdList = utils.dvdAmt(amount, totalCount, 1);
 
-        List<SprinkleGet> getList =  sprinkle.getSprinkleGets();
+		for (long l : dvdList) {
+			sprinkle.addSprinkleGet(SprinkleGet.builder().amount(l).build());
+		}
 
-        assertThat(getRepository.findAll()).isEqualTo(getList);
-        assertThat(getList.size()).isEqualTo(totalCount);
-        assertThat(getList.stream().map(SprinkleGet::getAmount).reduce(0L, Long::sum))
-                .isEqualTo(sprinkle.getAmount());
 
-    }
+		sprinkle = sprinkleRepository.findByTokenAndCreatedAtGreaterThan(token, createdAt).get();
+
+		List<SprinkleGet> getList = sprinkle.getSprinkleGets();
+
+		assertThat(getRepository.findAll()).isEqualTo(getList);
+		assertThat(getList.size()).isEqualTo(totalCount);
+		assertThat(getList.stream().map(SprinkleGet::getAmount).reduce(0L, Long::sum))
+				.isEqualTo(sprinkle.getAmount());
+
+	}
 }

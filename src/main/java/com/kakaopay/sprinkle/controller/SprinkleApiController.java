@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
@@ -27,44 +28,45 @@ import java.util.List;
 @RestController
 public class SprinkleApiController {
 
-    private final SprinkleService sprinkleService;
-    private final SprinkleGetService sprinkleGetService;
+	private final SprinkleService sprinkleService;
+	private final SprinkleGetService sprinkleGetService;
 
-    @ApiOperation(value = "생성 API", notes = "뿌릴 금액과 뿌릴 인원을 요청값으로 받아 뿌립니다.")
-    @PostMapping
-    public ResponseEntity<ApiResponseDto> saveSprinkle(
-            @RequestHeader(Headers.USER_ID) long userId,
-            @RequestHeader(Headers.ROOM_ID) String roomId,
-            @Valid @RequestBody SprinkleRequestDto requestDto) {
+	@ApiOperation(value = "생성 API", notes = "뿌릴 금액과 뿌릴 인원을 요청값으로 받아 뿌립니다.")
+	@PostMapping
+	public ResponseEntity<ApiResponseDto> saveSprinkle(
+			@RequestHeader(Headers.USER_ID) long userId,
+			@RequestHeader(Headers.ROOM_ID) String roomId,
+			@Valid @RequestBody SprinkleRequestDto requestDto) {
 
-        String token = sprinkleService.sprinkle(requestDto.getAmount(), requestDto.getTotalCount(), userId, roomId);
+		String token = sprinkleService.sprinkle(requestDto.getAmount(), requestDto.getTotalCount(), userId, roomId);
 
-        return new ResponseEntity<>(ApiResponseDto.get(ResponseCodes.SPRINKLE_SUCCESS,token), HttpStatus.CREATED);
-    }
+		return new ResponseEntity<>(ApiResponseDto.get(ResponseCodes.SPRINKLE_SUCCESS, token), HttpStatus.CREATED);
+	}
 
 
-    @ApiOperation(value = "받기 API", notes = "토큰을 요청값으로 받아 뿌려진 돈을 받습니다.")
-    @PutMapping("/{token}")
-    public ResponseEntity<ApiResponseDto> getSprinkle(
-            @RequestHeader(Headers.USER_ID) long userId,
-            @RequestHeader(Headers.ROOM_ID) String roomId,
-            @PathVariable String token) {
+	@ApiOperation(value = "받기 API", notes = "토큰을 요청값으로 받아 뿌려진 돈을 받습니다.")
+	@PutMapping("/{token}")
+	public ResponseEntity<ApiResponseDto> getSprinkle(
+			@RequestHeader(Headers.USER_ID) long userId,
+			@RequestHeader(Headers.ROOM_ID) String roomId,
+			@PathVariable String token) {
 
-        long amount = sprinkleGetService.sprinkleGet(token,userId,roomId);
+		long amount = sprinkleGetService.sprinkleGet(token, userId, roomId);
 
-        return new ResponseEntity<>(ApiResponseDto.get(ResponseCodes.GET_SUCCESS,amount), HttpStatus.OK);
-    }
+		return new ResponseEntity<>(ApiResponseDto.get(ResponseCodes.GET_SUCCESS, amount), HttpStatus.OK);
+	}
 
-    @ApiOperation(value = "조회 API", notes = "토큰을 요청값으로 받아 뿌리기 정보를 조회 합니다.")
-    @GetMapping(value = "/{token}")
-    ResponseEntity<ApiResponseDto> selectSprinkle(
-            @RequestHeader(Headers.USER_ID) long userId,
-            @PathVariable String token) {
+	@ApiOperation(value = "조회 API", notes = "토큰을 요청값으로 받아 뿌리기 정보를 조회 합니다.")
+	@GetMapping(value = "/{token}")
+	ResponseEntity<ApiResponseDto> selectSprinkle(
+			@RequestHeader(Headers.USER_ID) long userId,
+			@RequestHeader(Headers.ROOM_ID) String roomId,
+			@PathVariable String token) {
 
-        SprinkleResponseDto sprinkle = sprinkleService.selectSprinkle(token,userId);
+		SprinkleResponseDto sprinkle = sprinkleService.selectSprinkle(token, userId, roomId);
 
-        return new ResponseEntity<>(ApiResponseDto.get(ResponseCodes.SUCCESS,sprinkle), HttpStatus.OK);
-    }
+		return new ResponseEntity<>(ApiResponseDto.get(ResponseCodes.SUCCESS, sprinkle), HttpStatus.OK);
+	}
 
 
 }

@@ -36,8 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@DisplayName("API 테스트")
-@AutoConfigureMockMvc
+@DisplayName("API 테스트")@AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SprinkleApiControllerTest {
 
@@ -84,8 +83,8 @@ class SprinkleApiControllerTest {
 		actions
 				.andDo(print())
 				.andExpect(status().isCreated())
-				.andExpect(jsonPath("code",is(ResponseCodes.SPRINKLE_SUCCESS.code)))
-				.andExpect(jsonPath("message",is(ResponseCodes.SPRINKLE_SUCCESS.description)))
+				.andExpect(jsonPath("code", is(ResponseCodes.SPRINKLE_SUCCESS.code)))
+				.andExpect(jsonPath("message", is(ResponseCodes.SPRINKLE_SUCCESS.description)))
 				.andExpect(jsonPath("data").isNotEmpty());
 	}
 
@@ -93,12 +92,12 @@ class SprinkleApiControllerTest {
 	@DisplayName("받기 API")
 	public void getSprinkle() throws Exception {
 
-		String token = sprinkleService.sprinkle(amount,totalCount,userId,roomId);
+		String token = sprinkleService.sprinkle(amount, totalCount, userId, roomId);
 
 		long otherId = 1002;
 
 		ResultActions actions = mockMvc.perform(
-				put("/v1/sprinkle/{token}",token)
+				put("/v1/sprinkle/{token}", token)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON)
 						.header(Headers.USER_ID, otherId)
@@ -108,22 +107,23 @@ class SprinkleApiControllerTest {
 		actions
 				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("code",is(ResponseCodes.GET_SUCCESS.code)))
-				.andExpect(jsonPath("message",is(ResponseCodes.GET_SUCCESS.description)))
+				.andExpect(jsonPath("code", is(ResponseCodes.GET_SUCCESS.code)))
+				.andExpect(jsonPath("message", is(ResponseCodes.GET_SUCCESS.description)))
 				.andExpect(jsonPath("data").isNotEmpty());
 	}
+
 	@Test
 	@DisplayName("조회 API")
 	public void selectSprinkle() throws Exception {
 
-		String token = sprinkleService.sprinkle(amount,totalCount,userId,roomId);
+		String token = sprinkleService.sprinkle(amount, totalCount, userId, roomId);
 
 		long otherId = 1002;
-		long getAmt = sprinkleGetService.sprinkleGet(token,otherId,roomId);
+		long getAmt = sprinkleGetService.sprinkleGet(token, otherId, roomId);
 
 
 		ResultActions actions = mockMvc.perform(
-				get("/v1/sprinkle/{token}",token)
+				get("/v1/sprinkle/{token}", token)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON)
 						.header(Headers.USER_ID, userId)
@@ -132,8 +132,8 @@ class SprinkleApiControllerTest {
 		actions
 				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("code",is(ResponseCodes.SUCCESS.code)))
-				.andExpect(jsonPath("message",is(ResponseCodes.SUCCESS.description)))
+				.andExpect(jsonPath("code", is(ResponseCodes.SUCCESS.code)))
+				.andExpect(jsonPath("message", is(ResponseCodes.SUCCESS.description)))
 				.andExpect(jsonPath("data").isNotEmpty())
 				.andExpect(jsonPath("data.amount").value(amount))
 				.andExpect(jsonPath("data.gottenAmount").value(getAmt))

@@ -10,12 +10,13 @@ import springfox.documentation.annotations.ApiIgnore;
 @ApiIgnore
 public class BaseController {
 
-    @RequestMapping("/")
-    public String redirect(){
-        return "redirect:swagger-ui.html";
-    }
-    @RequestMapping("/h2")
-    public String redirect2(){
-        return "redirect:h2-console";
-    }
+	@RequestMapping("/")
+	public String redirect() {
+		return "redirect:swagger-ui.html";
+	}
+
+	@RequestMapping("/h2")
+	public String redirect2() {
+		return "redirect:h2-console";
+	}
 }
