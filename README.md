@@ -48,6 +48,7 @@
 #### 	1.DB Modeling
 
   * sprinkle / sprinkleGet 테이블로 구성 
+  * AWS MariaDB 연결 되어 있음 H2 DB 사용 원할시 application.properties 에서 주석 처리 
 >![image](https://user-images.githubusercontent.com/42058025/106576641-be6d8580-6580-11eb-8600-32334adbc02c.png)
 
 #### 	2. Swagger
